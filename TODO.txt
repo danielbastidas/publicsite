@@ -1,0 +1,2 @@
+1. Configure VPN in my personal laptop
+2. Create project for modified listener in gitlab
