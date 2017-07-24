@@ -9,7 +9,8 @@ public class NodeData implements Serializable {
 	
 	private String name;
 	
-	private int counter;
+	private int candidate1;
+	private int candidate2;
 	
 	private BehaviorSubject<Integer> subject;
 	
@@ -28,17 +29,26 @@ public class NodeData implements Serializable {
 		}
 	}
 
-	public int getCounter() {
-		return counter;
+	public int getCandidate1() {
+		return candidate1;
 	}
 
-	public void setCounter(int counter) {
-		this.counter = counter;
+	public void setCandidate1(int candidate1) {
+		this.candidate1 = candidate1;
 		subject.onNext(counter);
 	}
 
 	public BehaviorSubject<Integer> getSubject() {
 		return subject;
+	}
+	
+	public int getCandidate2() {
+		return candidate2;
+	}
+
+	public void setCandidate2(int candidate2) {
+		this.candidate2 = candidate2;
+		subject.onNext(counter);
 	}
 
 }
