@@ -1,3 +1,10 @@
 1. Configure VPN in my personal laptop
 2. Create project for modified listener in gitlab
 3. Create docker image with all tools needed (java, jboss, neo4j, maven, etc..)
+
+Pasos a seguir para el demo
+1 Modificar arbol de regiones. Country, State1, State2, etc..
+2 Hacer que el insert en la base de datos graph suceda cuando se presiona enter. Antes de insertar mostrar los valores del acta que se van a insertar y el lugar.
+3 Implementar Rx.
+4 Implementar websocket.
+5 Implementar pagina con navegacion tipo politico.
