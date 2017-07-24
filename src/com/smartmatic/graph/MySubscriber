@@ -1,0 +1,12 @@
+public class MySubscriber extends Subscriber {
+  private Session session;
+  
+  public MySubscriber(Session session) {
+    this.session = session;
+  }
+  
+  public void onComplete(){}
+  public void onNext(){session.getBasicRemote().sendMessage();}
+  public void onError(){}
+  
+}
