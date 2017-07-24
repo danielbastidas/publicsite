@@ -3,6 +3,7 @@ package com.smartmatic.graph;
 import java.io.File;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -44,16 +45,19 @@ public class GraphTest {
 				.setConfig(GraphDatabaseSettings.cypher_hints_error, "true")
 				.setConfig(GraphDatabaseSettings.cypher_parser_version, "3.0").newGraphDatabase();
 		
-		String[][] matrix = new String[][] { { "C:Reg", "E1:Reg", "C1:Reg", "M1:Reg", "P1:Reg", "A1:tally" },
-				{ "C:Reg", "E1:Reg", "C1:Reg", "M1:Reg", "P1:Reg", "A2:tally" },
-				{ "C:Reg", "E1:Reg", "C2:Reg", "A3:tally" }, 
-				{ "C:Reg", "E1:Reg", "C2:Reg", "A4:tally" } };
+		String[][] matrix = new String[][] { { "Country:Reg", "State1:Reg", "Municipality1:Reg", "Parish1:Reg", "PollingPlace1:Reg", "tally1:tally:15:55" },
+				{ "Country:Reg", "State1:Reg", "Municipality1:Reg", "Parish1:Reg", "PollingPlace1:Reg", "tally2:tally:37:16" },
+				{ "Country:Reg", "State1:Reg", "Municipality2:Reg", "tally3:tally:14:42" }, 
+				{ "Country:Reg", "State1:Reg", "Municipality2:Reg", "tally4:tally:63:22" } };
 
 		PostSaveEventListener<Void> eventListener = new PostSaveEventListener<Void>();
-
-		for (String[] tally : matrix) {
-
+		int index = 0;
+		Scanner scanner = new Scanner(System.in);
+		String command = scanner.next();
+		while(command.compareIgnoreCase("q")!=0) {
 			try (Transaction tx = obj.graphDb.beginTx()) {
+				
+				System.out.println("Inserting tally with the following info:"+matrix[index]);
 				
 				obj.index = obj.graphDb.index().forNodes("Dir"); 
 				
@@ -80,12 +84,13 @@ public class GraphTest {
 				// SessionFactory("com.smartmatic.graph");
 				// sessionFactory.openSession().register(event);
 
-				obj.storePath(tally);
+				obj.storePath(matrix[index]);
 
 				tx.success();
+				index++;
+				scanner.next();
 
 			}
-
 		}
 
 		obj.registerShutdownHook(obj.graphDb);
@@ -95,21 +100,31 @@ public class GraphTest {
 	}
 
 	public void storePath(String[] path) {
-		Node dir = uniqueFactory.getOrCreate("name", "C");// the root node
+		Node dir = uniqueFactory.getOrCreate("name", "Country");// the root node
 		String type = null;
 		String name = null;
+		int candidate1 = 0;
+		int candidate2 = 0;
+		String array[] = null;
 		for (String str : path) {
-			name = str.split(":")[0];
-			type = str.split(":")[1];
-			dir = obtainSubDir(dir, name, type);
+			array = str.split(":");
+			name = array[0];
+			type = array(":")[1];
+			if (array[2] != null) {
+				candidate1 = Integer.parseInt(array[2]);
+			}
+			if (array[3] != null) {
+				candidate2 = Integer.parseInt(array[3]);
+			}
+			dir = obtainSubDir(dir, name, type, candidate1, candidate2);
 		}
 	}
 
-	private Node obtainSubDir(Node dir, String name, String type) {
+	private Node obtainSubDir(Node dir, String name, String type, int candidate1, int candidate2) {
 		Node subDir = getSubDir(dir, name);
 		if (subDir != null)
 			return subDir;
-		return createSubDir(dir, name, type);
+		return createSubDir(dir, name, type, candidate1, candidate2);
 	}
 
 	private Node getSubDir(Node dir, String name) {
@@ -121,9 +136,9 @@ public class GraphTest {
 		return null;
 	}
 
-	private Node createSubDir(Node dir, String name, String type) {
+	private Node createSubDir(Node dir, String name, String type, int candidate1, int candidate2) {
 
-		Random random = new Random();
+		//Random random = new Random();
 		Node subDir = uniqueFactory.getOrCreate("name", name);
 		index.add(subDir, "name", name);
 		
@@ -131,7 +146,8 @@ public class GraphTest {
 		// node
 		NodeData metaData = new NodeData();
 		metaData.setName(name);
-		metaData.setCounter((type.equals("tally")) ? random.nextInt(100) + 1 : 0);
+		metaData.setCandidate1((type.equals("tally")) ? candidate1 : 0);
+		metaData.setCandidate2((type.equals("tally")) ? candidate2 : 0);
 		subDir.setProperty("metadata", metaData);
 		subDir.addLabel(Label.label(type));
 		dir.createRelationshipTo(subDir, SUB_DIR);
