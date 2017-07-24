@@ -8,3 +8,6 @@ Pasos a seguir para el demo
 3 Implementar Rx.
 4 Implementar websocket.
 5 Implementar pagina con navegacion tipo politico.
+6 Cada vez que haga subscribe retornar las regiones hijas directas de la ubicacion actual.
+Si es la primera vez que se conecta por el websocet sin pasar region actual entonces el backend debe retornar la region pais.
+Si se pasa una region, retornar las regiones hijas directas.
