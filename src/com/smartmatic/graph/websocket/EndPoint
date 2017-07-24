@@ -1,0 +1,22 @@
+@ServerEndpoint("/graphWebSocket")
+@Stateless
+public class EndPoint {
+
+    private List<MySubscriber> observers;
+    
+    @OnMessage
+	  public String receiveMessage(String message, Session session) {
+		    String type = message.//TODO this should be parsed from json
+	  }
+
+	  @OnOpen
+	  public void open(final Session session) throws IOException {
+		    log.info("Session opened:" + session.getId());
+	  }
+
+	  @OnClose
+	  public void close(Session session, CloseReason c) {
+		    log.info("Session closed:" + session.getId());
+	  }
+
+}
