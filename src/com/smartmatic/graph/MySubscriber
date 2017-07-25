@@ -1,6 +1,6 @@
 package com.smartmatic.graph;
 
-public class MySubscriber extends Subscriber {
+public class MySubscriber extends Subscriber implements Comparator<MySubscriber> {
 
   private Session session;
   
@@ -17,13 +17,8 @@ public class MySubscriber extends Subscriber {
   }
   public void onError() {}
   
-  @override
-  public boolean equals(Object obj) {
-    if (obj instanceof MySubscriber ) {
-        return this.regionName.compareIgnoreCase(((MySubscriber)obj).regionName);
-    }
-    
-    return false;
+  public int compare(MySubscriber obj1, MySubscriber obj2) {
+        return obj1.regionName.compare(obj2.regionName);
   }
   
 }
