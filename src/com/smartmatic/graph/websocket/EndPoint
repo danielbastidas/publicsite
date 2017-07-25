@@ -2,18 +2,22 @@
 @Stateless
 public class EndPoint {
 
-    private List<MySubscriber> observers;
+    private Map<String, MySubscriber> observers;
     
     	  @OnMessage
 	  public String receiveMessage(String message, Session session) {
-	  	    MySubscriberComparator comparator = new MySubscriber.MySubscriberComparator();
+	  	    //TODO: eliminar comparator del observer
+		    //MySubscriberComparator comparator = new MySubscriber.MySubscriberComparator();
 		    JsonObject jObject = (JsonObject) new JsonParser().parse(message);
 		    String type = jObject.get("type");
 		    String region = jObject.get("region");
 		    if (t.compareIgnoreCase("subscribe")) {
-		    	int index = Collections.binarySearch(observers, )
-			//TODO: implementarlo de otra manera, con una mapa key=region, value=subscriber
-		    	if ( Collection )//TODO: implements comparator in the subscriber class
+		    	MySubscriber subscriber = observers.get(region);
+		    	if ( subscriber != null ) {
+				subscriber.subscribe();
+			} else {
+				subscriber = new MySubscriber(session);
+			}
 		    }
 	  }
 
