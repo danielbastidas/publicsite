@@ -6,7 +6,12 @@ public class EndPoint {
     
     @OnMessage
 	  public String receiveMessage(String message, Session session) {
-		    String type = message.//TODO this should be parsed from json
+		    JsonObject jObject = (JsonObject) new JsonParser().parse(message);
+		    String type = jObject.get("type");
+		    String region = jObject.get("region");
+		    if (t.compareIgnoreCase("subscribe")) {
+		    	if (observers.contains(region))//TODO: implements comparator in the subscriber class
+		    }
 	  }
 
 	  @OnOpen
