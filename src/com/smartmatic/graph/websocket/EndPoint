@@ -10,7 +10,8 @@ public class EndPoint {
 		    String type = jObject.get("type");
 		    String region = jObject.get("region");
 		    if (t.compareIgnoreCase("subscribe")) {
-		    	if (observers.contains(region))//TODO: implements comparator in the subscriber class
+		    	int index = Collections.binarySearch(observers, )
+		    	if ( Collection )//TODO: implements comparator in the subscriber class
 		    }
 	  }
 
