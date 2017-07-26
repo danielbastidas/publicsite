@@ -45,15 +45,29 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
 				MyObserver tallyObserver = new MyObserver();
 				tallyObserver.setCandidate1(candidate1);
 				tallyObserver.setCandidate2(candidate2);
-				//TODO inyectar una instancia del singletonbean para poner el observer en el mapa por region
+				
+				// Set up the context for the JNDI lookup
+            	Properties prop = new Properties();
+				prop.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+				Context context = new InitialContext(prop);
+				
+				//TODO: sustituir esto por la ruta en donde despliega el observerbean
+				IObserver observerBean = (IObserver) context.lookup("ejb:/myapp/remote/calculator!de.akquinet.jbosscc.ejb.ObserverBean");
+				observerBean.addObserver(tallyObserver, regionName);
 
 				while (parent != null && previous.equals(parent) == false) {
 					
 					NodeData parentMetaData = (NodeData) parent.getProperty("metadata");
 					
 					// increase counter for current branch
+					regionName = parentMetaData.getName();
 					parentMetaData.setCandidate1(parentMetaData.getCandidate1()+candidate1);
 					parentMetaData.setCandidate2(parentMetaData.getCandidate2()+candidate2);
+					
+					MyObserver regionObserver = new MyObserver();
+					regionObserver.setCandidate1(parentMetaData.getCandidate1());
+					regionObserver.setCandidate2(parentMetaData.getCandidate2();
+					
 //					parent.setProperty("counter", (Integer) parent.getProperty("counter") + counter);
 					previous=parent;
 					parent = parent.getSingleRelationship(RelationshipType.withName("parent"), Direction.INCOMING)
