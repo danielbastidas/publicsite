@@ -13,3 +13,4 @@ Si es la primera vez que se conecta por el websocet sin pasar region actual ento
 Si se pasa una region, retornar las regiones hijas directas.
 7 Convertir el proyecto en un proyecto web
 8 Implementar en el websocket el metodo sendMessage donde se pasa la cantidad de votos de los dos candidatos
+9 Implementar pagina html en base a la respuesta json definida
