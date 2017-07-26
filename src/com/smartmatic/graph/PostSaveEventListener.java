@@ -42,8 +42,7 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
 				previous = node;
 				
 				MyObserver tallyObserver = new MyObserver();
-				tallyObserver.setCandidate1(candidate1);
-				tallyObserver.setCandidate2(candidate2);
+				tallyObserver.setValue("C1:"+candidate1+"|C2:"+candiadte2);
 				
 				// Set up the context for the JNDI lookup
             			Properties prop = new Properties();
@@ -65,12 +64,10 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
 					Observable observer = observerBean.get(regionName);
 					if (observer == null) {
 						MyObserver regionObserver = new MyObserver();
-						regionObserver.setCandidate1(parentMetaData.getCandidate1());
-						regionObserver.setCandidate2(parentMetaData.getCandidate2());
+						regionObserver.setValue("C1:"+parentMetaData.getCandidate1()+"|C2:"+parentMetaData.getCandidate2());
 						observerBean.addObserver(regionObserver, regionName);
 					} else {
-						observer.setCandidate1(parentMetaData.getCandidate1());
-						observer.setCandidate2(parentMetaData.getCandidate2());
+						observer.setValue("C1:"+parentMetaData.getCandidate1()+"|C2:"+parentMetaData.getCandidate2());
 					}
 					
 //					parent.setProperty("counter", (Integer) parent.getProperty("counter") + counter);
