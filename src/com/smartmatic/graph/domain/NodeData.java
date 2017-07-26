@@ -24,7 +24,7 @@ public class NodeData implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-		if (name.equals("C")) {// the root node
+		if (name.equals("Country")) {// the root node
 			subject.subscribe(val -> System.out.println("The value changed to:" + val));
 		}
 	}
