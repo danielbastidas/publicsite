@@ -7,8 +7,9 @@ Pasos a seguir para el demo
 2 Hacer que el insert en la base de datos graph suceda cuando se presiona enter. Antes de insertar mostrar los valores del acta que se van a insertar y el lugar.
 3 Implementar Rx.
 4 Implementar websocket.
-5 Implementar pagina con navegacion tipo politico.
+5 Implementar pagina con navegacion tipo politico.com.
 6 Cada vez que haga subscribe retornar las regiones hijas directas de la ubicacion actual.
 Si es la primera vez que se conecta por el websocet sin pasar region actual entonces el backend debe retornar la region pais.
 Si se pasa una region, retornar las regiones hijas directas.
 7 Convertir el proyecto en un proyecto web
+8 Implementar en el websocket el metodo sendMessage donde se pasa la cantidad de votos de los dos candidatos
