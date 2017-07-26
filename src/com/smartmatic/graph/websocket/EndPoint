@@ -2,7 +2,8 @@
 @Stateless
 public class EndPoint {
 
-    private Map<String, MySubscriber> observers;
+    	  @EJB
+	  private IObserver observerBean;
     
     	  @OnMessage
 	  public String receiveMessage(String message, Session session) {
@@ -12,12 +13,18 @@ public class EndPoint {
 		    String type = jObject.get("type");
 		    String region = jObject.get("region");
 		    if (t.compareIgnoreCase("subscribe")) {
-		    	MySubscriber subscriber = observers.get(region);
-		    	if ( subscriber != null ) {
-				subscriber.subscribe();
+		    	MyObservable observable = observerBean.get(region);
+		    	if ( observable != null ) {
+				observable.subscribe(new MySubscriber(session));
 			} else {
-				subscriber = new MySubscriber(session);
+				observable = new MyObservable();
+				observable.setCandidate1(0);
+				observable.setCandidate2(0);
+				observable.getObserver().subscribe(new MySubscriber(session));
 			}
+		    } else if (t.compareIgnoreCase("unsubscribe")) {
+		    	//TODO:unsubscribe the current subscriber. Para almacenar el current subscriber se puede poner en la session
+			//subscriber.dispose();
 		    }
 	  }
 
