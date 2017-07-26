@@ -1,3 +1,4 @@
+@Local
 public interface IObserver {
 
         public MyObserver getObserver(String regionName);
