@@ -1,0 +1,12 @@
+@Singleton
+@Startup
+public class RegionBean implements IRegion {
+        
+        private Map<String, String[]> regionsByParent;
+        
+        public RegionBean() {
+                regionsByParent = new HashMap<String, String[]>();
+                
+        }
+        
+}
