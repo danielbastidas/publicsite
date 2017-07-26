@@ -2,7 +2,9 @@
 @Stateless
 public class EndPoint {
 
-    	  @EJB
+    	  private final static String SUBSCRIBER_KEY="SUBSCRIBER";
+	  
+	  @EJB
 	  private IObserver observerBean;
     
     	  @OnMessage
@@ -13,18 +15,25 @@ public class EndPoint {
 		    String type = jObject.get("type");
 		    String region = jObject.get("region");
 		    if (t.compareIgnoreCase("subscribe")) {
-		    	MyObservable observable = observerBean.get(region);
+		    	MySubscriber subscriber = new MySubscriber(session)
+			MyObservable observable = observerBean.get(region);
 		    	if ( observable != null ) {
-				observable.subscribe(new MySubscriber(session));
+				observable.subscribe(subscriber);
 			} else {
 				observable = new MyObservable();
 				observable.setCandidate1(0);
 				observable.setCandidate2(0);
-				observable.getObserver().subscribe(new MySubscriber(session));
+				observable.getObserver().subscribe(subscriber);
 			}
+			session.getUserProperties().put(SUBSCRIBER_KEY, subscriber);
 		    } else if (t.compareIgnoreCase("unsubscribe")) {
 		    	//TODO:unsubscribe the current subscriber. Para almacenar el current subscriber se puede poner en la session
 			//subscriber.dispose();
+			Disposable subscriber = (Disposable) session.getUserProperties().get(SUBSCRIBER_KEY);
+			if (subscriber != null) {
+				// unsubscribe to avoid subscribers leak
+				subscriber.dispose();
+			}
 		    }
 	  }
 
