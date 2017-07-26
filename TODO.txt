@@ -1,6 +1,6 @@
-1. Configure VPN in my personal laptop
-2. Create project for modified listener in gitlab
-3. Create docker image with all tools needed (java, jboss, neo4j, maven, etc..)
+1. Configure VPN in my personal laptop [DONE]
+2. Create project for modified listener in gitlab [DELAYED]
+3. Create docker image with all tools needed (java, jboss, neo4j, maven, etc..) [DELAYED]
 
 Pasos a seguir para el demo
 1 Modificar arbol de regiones. Country, State1, State2, etc.. [DONE]
@@ -13,3 +13,4 @@ Si es la primera vez que se conecta por el websocet sin pasar region actual ento
 Si se pasa una region, retornar las regiones hijas directas. [DONE]
 7 Convertir el proyecto en un proyecto web
 8 Implementar en el websocket el metodo sendMessage donde se pasa la cantidad de votos de los dos candidatos. [DONE]
+9 Incluir los resultados de las regiones hijas tambien
