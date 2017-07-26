@@ -47,7 +47,7 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
 				tallyObserver.setCandidate2(candidate2);
 				
 				// Set up the context for the JNDI lookup
-            	Properties prop = new Properties();
+            			Properties prop = new Properties();
 				prop.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 				Context context = new InitialContext(prop);
 				
@@ -64,9 +64,16 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
 					parentMetaData.setCandidate1(parentMetaData.getCandidate1()+candidate1);
 					parentMetaData.setCandidate2(parentMetaData.getCandidate2()+candidate2);
 					
-					MyObserver regionObserver = new MyObserver();
-					regionObserver.setCandidate1(parentMetaData.getCandidate1());
-					regionObserver.setCandidate2(parentMetaData.getCandidate2();
+					Observable observer = observerBean.get(regionName);
+					if (observer == null) {
+						MyObserver regionObserver = new MyObserver();
+						regionObserver.setCandidate1(parentMetaData.getCandidate1());
+						regionObserver.setCandidate2(parentMetaData.getCandidate2());
+						observerBean.addObserver(regionObserver, regionName);
+					} else {
+						observer.setCandidate1(parentMetaData.getCandidate1());
+						observer.setCandidate2(parentMetaData.getCandidate2());
+					}
 					
 //					parent.setProperty("counter", (Integer) parent.getProperty("counter") + counter);
 					previous=parent;
