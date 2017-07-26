@@ -32,20 +32,28 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
 
 			Node node = (Node) iterator.next();
 			NodeData nodeMetaData = (NodeData) node.getProperty("metadata");
-			int counter = (Integer) nodeMetaData.getCounter();
+			int candidate1 = (Integer) nodeMetaData.getCandidate1();
+			int candidate2 = (Integer) nodeMetaData.getCandidate2();
+			String regionName = (String) nodeMetaData.getName();
 
 			if (node.hasLabel(Label.label("tally"))) {
 
 				Node parent = node.getSingleRelationship(RelationshipType.withName("parent"), Direction.INCOMING)
 						.getStartNode();
 				previous = node;
+				
+				MyObserver tallyObserver = new MyObserver();
+				tallyObserver.setCandidate1(candidate1);
+				tallyObserver.setCandidate2(candidate2);
+				//TODO inyectar una instancia del singletonbean para poner el observer en el mapa por region
 
 				while (parent != null && previous.equals(parent) == false) {
 					
 					NodeData parentMetaData = (NodeData) parent.getProperty("metadata");
 					
 					// increase counter for current branch
-					parentMetaData.setCounter(parentMetaData.getCounter()+counter);
+					parentMetaData.setCandidate1(parentMetaData.getCandidate1()+candidate1);
+					parentMetaData.setCandidate2(parentMetaData.getCandidate2()+candidate2);
 //					parent.setProperty("counter", (Integer) parent.getProperty("counter") + counter);
 					previous=parent;
 					parent = parent.getSingleRelationship(RelationshipType.withName("parent"), Direction.INCOMING)
