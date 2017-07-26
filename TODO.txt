@@ -3,14 +3,13 @@
 3. Create docker image with all tools needed (java, jboss, neo4j, maven, etc..)
 
 Pasos a seguir para el demo
-1 Modificar arbol de regiones. Country, State1, State2, etc..
-2 Hacer que el insert en la base de datos graph suceda cuando se presiona enter. Antes de insertar mostrar los valores del acta que se van a insertar y el lugar.
-3 Implementar Rx.
-4 Implementar websocket.
-5 Implementar pagina con navegacion tipo politico.com.
+1 Modificar arbol de regiones. Country, State1, State2, etc.. [DONE]
+2 Hacer que el insert en la base de datos graph suceda cuando se presiona enter. Antes de insertar mostrar los valores del acta que se van a insertar y el lugar. [DONE]
+3 Implementar Rx. [DONE]
+4 Implementar websocket. [DONE]
+5 Implementar pagina con navegacion tipo politico.com en base a la respuesta definida.
 6 Cada vez que haga subscribe retornar las regiones hijas directas de la ubicacion actual.
 Si es la primera vez que se conecta por el websocet sin pasar region actual entonces el backend debe retornar la region pais.
-Si se pasa una region, retornar las regiones hijas directas.
+Si se pasa una region, retornar las regiones hijas directas. [DONE]
 7 Convertir el proyecto en un proyecto web
-8 Implementar en el websocket el metodo sendMessage donde se pasa la cantidad de votos de los dos candidatos
-9 Implementar pagina html en base a la respuesta json definida
+8 Implementar en el websocket el metodo sendMessage donde se pasa la cantidad de votos de los dos candidatos. [DONE]
