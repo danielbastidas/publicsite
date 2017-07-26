@@ -20,7 +20,6 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
 
 	@Override
 	public void afterRollback(TransactionData data, Object arg1) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -51,7 +50,6 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
 				prop.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 				Context context = new InitialContext(prop);
 				
-				//TODO: sustituir esto por la ruta en donde despliega el observerbean
 				IObserver observerBean = (IObserver) context.lookup("ejb:/myapp/remote/calculator!de.akquinet.jbosscc.ejb.ObserverBean");
 				observerBean.addObserver(tallyObserver, regionName);
 
