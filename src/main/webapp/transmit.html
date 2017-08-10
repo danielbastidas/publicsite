@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="transmitApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap/bootstrap-3.3.7.min.css">
+    <script type="text/javascript" src="js/vendor/angular/angular.min.js"></script>
+    <script type="text/javascript" src="js/controller/transmit.js"></script>
+
+</head>
+<body ng-controller="transmitController">
+
+    <div align="center">
+        <button class="btn-primary" ng-click="transmit()">Transmit</button>
+    </div>
+
+    <div align="center">
+        <p>{{tally}}</p>
+    </div>
+
+</body>
+</html>

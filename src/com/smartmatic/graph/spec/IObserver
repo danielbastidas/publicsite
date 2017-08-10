@@ -1,7 +1,0 @@
-@Local
-public interface IObserver {
-
-        public MyObserver getObserver(String regionName);
-        
-        public void addObserver(MyObserver observer, String regionName);
-}

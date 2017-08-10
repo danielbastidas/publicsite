@@ -1,4 +1,0 @@
-@Local
-public interface IRegion {
-        public String[] getChilds(String parent);
-}

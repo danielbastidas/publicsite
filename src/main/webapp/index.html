@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Demo</title>
+
+    <script type="text/javascript" src="js/vendor/angular/angular.min.js"></script>
+    <script type="text/javascript" src="js/vendor/angular/angular-websocket.min.js"></script>
+    <script type="text/javascript" src="js/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/controller/demo.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap/bootstrap-3.3.7.min.css">
+
+</head>
+<body>
+
+<div id="container" ng-app="demoApp" ng-controller="demoController">
+    <table align="center">
+        <tr>
+            <td colspan="2"><h3>{{currentRegion}}</h3></td>
+        </tr>
+        <tr>
+            <td colspan="2"><h3>2017 Presidential Election Results</h3></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         23 ng-style="{'width': MyData.progress1}">{{regionMap.get(currentRegion).result.candidate1}}
+                    </div>
+                    <div class="progress-bar progress-bar-danger" role="progressbar"
+                         25 ng-style="{'width': MyData.progress2}">{{regionMap.get(currentRegion).result.candidate2}}
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div>
+                    <header>Candidate A</header>
+                    <footer>{{regionMap.get(currentRegion).result.candidate1}}</footer>
+                </div>
+            </td>
+            <td style="text-align: right;">
+                <div>
+                    <header>Candidate B</header>
+                    <footer>{{regionMap.get(currentRegion).result.candidate2}}</footer>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+    <article id="region" ng-repeat="region in subRegions">
+        <header>
+            <h3>
+                <a href="" ng-click="changeRegion(region)">{{region}}</a>
+            </h3>
+        </header>
+        <ol>
+            <li>
+                <table>
+                    <tr>
+                        <td>Candidate A:</td>
+                        <td>{{regionMap.get(region).candidate1}}</td>
+                    </tr>
+                </table>
+            </li>
+            <li>
+                <table>
+                    <tr>
+                        <td>Candidate B:</td>
+                        <td>{{regionMap.get(region).candidate2}}</td>
+                    </tr>
+                </table>
+            </li>
+        </ol>
+    </article>
+
+</div>
+
+</body>
+</html>
