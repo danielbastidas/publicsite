@@ -3,6 +3,7 @@ package com.smartmatic.graph;
 import com.google.gson.Gson;
 import com.smartmatic.graph.domain.NodeData;
 import com.smartmatic.graph.observable.MyObserver;
+import com.smartmatic.graph.service.ObserverBean;
 import com.smartmatic.graph.spec.IObserver;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Label;
@@ -13,8 +14,9 @@ import org.neo4j.graphdb.event.TransactionEventHandler;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Properties;
 
 public class PostSaveEventListener<Void> implements TransactionEventHandler {
 
@@ -51,18 +53,8 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
                 MyObserver tallyObserver = new MyObserver();
                 tallyObserver.setValue("C1:" + candidate1 + "|C2:" + candidate2);
 
-                // Set up the context for the JNDI lookup
+                IObserver observerBean = lookSessionBean();
 
-                Properties prop = new Properties();
-                prop.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
-                prop.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-//                prop.put("jboss.naming.client.ejb.context", true);
-//                prop.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");
-
-                Context context = new InitialContext(prop);
-
-                IObserver observerBean = (IObserver) context.
-                        lookup("java:app/real-time-public-site/ObserverBean!com.smartmatic.graph.spec.IObserver");
                 observerBean.addObserver(tallyObserver, regionName);
 
                 while (parent != null && previous.equals(parent) == false) {
@@ -96,6 +88,33 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
         }
 
         return null;
+    }
+
+    private IObserver lookSessionBean() throws NamingException {
+
+        final Hashtable jndiProperties = new Hashtable();
+        jndiProperties.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+        final Context context = new InitialContext(jndiProperties);
+        // The app name is the application name of the deployed EJBs. This is typically the ear name
+        // without the .ear suffix. However, the application name could be overridden in the application.xml of the
+        // EJB deployment on the server.
+        // Since we haven't deployed the application as a .ear, the app name for us will be an empty string
+        final String appName = "";
+        // This is the module name of the deployed EJBs on the server. This is typically the jar name of the
+        // EJB deployment, without the .jar suffix, but can be overridden via the ejb-jar.xml
+        // In this example, we have deployed the EJBs in a jboss-as-ejb-remote-app.jar, so the module name is
+        // jboss-as-ejb-remote-app
+        final String moduleName = "real-time-public-site";
+        // AS7 allows each deployment to have an (optional) distinct name. We haven't specified a distinct name for
+        // our EJB deployment, so this is an empty string
+        final String distinctName = "";
+        // The EJB name which by default is the simple class name of the bean implementation class
+        final String beanName = ObserverBean.class.getSimpleName();
+        // the remote view fully qualified class name
+        final String viewClassName = IObserver.class.getName();
+        // let's do the lookup
+        return (IObserver) context.lookup("java:global/" + appName + "/" + moduleName + "/" + distinctName + "/" + beanName + "!" + viewClassName);
+
     }
 
 }

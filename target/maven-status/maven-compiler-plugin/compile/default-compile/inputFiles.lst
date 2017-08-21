@@ -4,6 +4,7 @@
 /home/danielbastidas/workspace/publicsite/src/main/java/com/smartmatic/graph/spec/ITransmission.java
 /home/danielbastidas/workspace/publicsite/src/main/java/com/smartmatic/graph/service/TransmissionBean.java
 /home/danielbastidas/workspace/publicsite/src/main/java/com/smartmatic/graph/domain/NodeData.java
+/home/danielbastidas/workspace/publicsite/src/main/java/com/smartmatic/graph/service/RestResponse.java
 /home/danielbastidas/workspace/publicsite/src/main/java/com/smartmatic/graph/service/Transmitter.java
 /home/danielbastidas/workspace/publicsite/src/main/java/com/smartmatic/graph/spec/IRegion.java
 /home/danielbastidas/workspace/publicsite/src/main/java/com/smartmatic/graph/PostSaveEventListener.java

@@ -11,11 +11,13 @@ app.controller('transmitController', function ($scope, $http) {
                     method : 'GET',
                     params : {}
                 }).success(function (data) {
-                          	$scope.tally = data.data;
+                            console.log('The response was:'+data.message);
+                          	$scope.tally = data.message;
                           }).error(function (data) {
+                            console.log('The response was:'+data);
                             $scope.tally="There was an error inserting the tally";
                           }).finally(function () {
-                            $scope.tally="There was an error inserting the tally";
+//                            $scope.tally="There was an error inserting the tally";
                           });
 
     };

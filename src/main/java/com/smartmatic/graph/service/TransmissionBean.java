@@ -42,10 +42,10 @@ public class TransmissionBean implements ITransmission {
                 .setConfig(GraphDatabaseSettings.cypher_hints_error, "true")
                 .setConfig(GraphDatabaseSettings.cypher_parser_version, "3.0").newGraphDatabase();
 
-        matrix = new String[][] { { "Country:Reg", "State1:Reg", "Municipality1:Reg", "Parish1:Reg", "PollingPlace1:Reg", "tally1:tally:15:55" },
-                { "Country:Reg", "State1:Reg", "Municipality1:Reg", "Parish1:Reg", "PollingPlace1:Reg", "tally2:tally:37:16" },
-                { "Country:Reg", "State1:Reg", "Municipality2:Reg", "tally3:tally:14:42" },
-                { "Country:Reg", "State1:Reg", "Municipality2:Reg", "tally4:tally:63:22" } };
+        matrix = new String[][] { { "Country:Reg", "State1:Reg", "Municipality1:Reg", "Parish1:Reg", "PollingPlace1:Reg", "Tally1:tally:15:55" },
+                { "Country:Reg", "State1:Reg", "Municipality1:Reg", "Parish1:Reg", "PollingPlace1:Reg", "Tally2:tally:37:16" },
+                { "Country:Reg", "State1:Reg", "Municipality2:Reg", "Tally3:tally:14:42" },
+                { "Country:Reg", "State1:Reg", "Municipality2:Reg", "Tally4:tally:63:22" } };
 
         eventListener = new PostSaveEventListener<Void>();
 

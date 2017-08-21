@@ -26,10 +26,10 @@
             <td colspan="2">
                 <div class="progress">
                     <div class="progress-bar progress-bar-success" role="progressbar"
-                         23 ng-style="{'width': MyData.progress1}">{{regionMap.get(currentRegion).result.candidate1}}
+                         23 ng-style="{'width': regionMap.get(currentRegion).progress1}">{{regionMap.get(currentRegion).progress1}}
                     </div>
                     <div class="progress-bar progress-bar-danger" role="progressbar"
-                         25 ng-style="{'width': MyData.progress2}">{{regionMap.get(currentRegion).result.candidate2}}
+                         25 ng-style="{'width': regionMap.get(currentRegion).progress2}">{{regionMap.get(currentRegion).progress2}}
                     </div>
                 </div>
             </td>
@@ -38,19 +38,23 @@
             <td>
                 <div>
                     <header>Candidate A</header>
-                    <footer>{{regionMap.get(currentRegion).result.candidate1}}</footer>
+                    <footer>{{regionMap.get(currentRegion).candidate1}}</footer>
                 </div>
             </td>
             <td style="text-align: right;">
                 <div>
                     <header>Candidate B</header>
-                    <footer>{{regionMap.get(currentRegion).result.candidate2}}</footer>
+                    <footer>{{regionMap.get(currentRegion).candidate2}}</footer>
                 </div>
             </td>
         </tr>
     </table>
 
-
+    <div>
+        <h3>
+            <a href="" ng-click="changeRegion(parentRegion)">Back</a>
+        </h3>
+    </div>
     <article id="region" ng-repeat="region in subRegions">
         <header>
             <h3>

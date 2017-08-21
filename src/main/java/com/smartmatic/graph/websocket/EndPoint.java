@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Map;
 
 @ServerEndpoint("/graphWebSocket")
 @Stateless
@@ -32,6 +33,7 @@ public class EndPoint {
         JsonObject jObject = (JsonObject) new JsonParser().parse(message);
         String type = jObject.get("type").getAsString();
         String region = jObject.get("region").getAsString();
+        String parentRegion = null;
 
         if (type.compareToIgnoreCase("subscribe") == 0) {
 
@@ -41,22 +43,31 @@ public class EndPoint {
             }
 
             String[] children = regionBean.getChildren(region);
+            parentRegion = regionBean.getParent(region);
+            if (parentRegion == null) {
+                parentRegion = "Country";
+            }
+
             int index = 0;
 
             do {
 
-                MySubscriber subscriber = new MySubscriber(session, region, (index > 0)? null:children);
+                MySubscriber subscriber = new MySubscriber(session, region, parentRegion,
+                        (index > 0)? null:children);
                 MyObserver observable = observerBean.getObserver(region);
+                Disposable disposable = null;
 
                 if (observable != null) {
-                    observable.getObservable().subscribe(subscriber);
+                    disposable = observable.getObservable().subscribe(subscriber);
                 } else {
                     observable = new MyObserver();
                     observable.setValue("C1:" + 0 + "|C2:" + 0);
-                    observable.getObservable().subscribe(subscriber);
+                    disposable = observable.getObservable().subscribe(subscriber);
                     observerBean.addObserver(observable, region);
                 }
-                session.getUserProperties().put(SUBSCRIBER_KEY, subscriber);
+//                if (index == 0) {
+                session.getUserProperties().put(region, disposable);
+//                }
 
                 if (children != null && index < children.length) {
                     region = children[index++];
@@ -67,11 +78,22 @@ public class EndPoint {
             } while (region != null);
 
         } else if (type.compareToIgnoreCase("unsubscribe") == 0) {
-            Disposable subscriber = (Disposable) session.getUserProperties().get(SUBSCRIBER_KEY);
-            if (subscriber != null) {
+
+            for (Map.Entry<String, Object> entry : session.getUserProperties().entrySet()){
+
+                Disposable subscriber = (Disposable) entry.getValue();
                 // unsubscribe to avoid subscribers leak
                 subscriber.dispose();
+
             }
+            session.getUserProperties().clear();
+
+//            MySubscriber subscriber = (MySubscriber) session.getUserProperties().get(region);
+//            if (subscriber != null) {
+//                // unsubscribe to avoid subscribers leak
+//                subscriber.onComplete();
+//                session.getUserProperties().remove(subscriber);
+//            }
         }
 
         return "DONE";

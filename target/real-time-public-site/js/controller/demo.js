@@ -5,10 +5,13 @@ app.controller('demoController', function ($scope, websocketService) {
     $scope.regionMap = new Map();
     $scope.subRegions;
     $scope.currentRegion;
+    $scope.parentRegion;
 	
 	websocketService.onmessage(
 
                 function (evt) {
+
+                    console.log('The response was:'+evt.data);
 
                     if (evt.data!="DONE") {//response of subscribe/unsubscribe event
 
@@ -16,7 +19,11 @@ app.controller('demoController', function ($scope, websocketService) {
                         var regionName = response.regionName;
                         var result = {
                             candidate1: response.candidate1,
-                            candidate2: response.candidate2
+                            candidate2: response.candidate2,
+                            progress1: Math.round(parseInt(response.candidate1)/
+                                (parseInt(response.candidate1)+parseInt(response.candidate2))*100)+'%',
+                            progress2: Math.round(parseInt(response.candidate2)/
+                                (parseInt(response.candidate1)+parseInt(response.candidate2))*100)+'%'
                         };
 
                         console.log('data received:'+response);
@@ -25,6 +32,7 @@ app.controller('demoController', function ($scope, websocketService) {
                             if (response.children.length>0) {
                                 $scope.subRegions = response.children;
                                 $scope.currentRegion = regionName;
+                                $scope.parentRegion = response.parentRegion;
                             }
 
                         });
@@ -35,16 +43,17 @@ app.controller('demoController', function ($scope, websocketService) {
 
     $scope.changeRegion = function(regionName) {
 
+//        $scope.previousRegion = $scope.currentRegion;
 
-//        if ($scope.currentRegion != undefined) {
-//
-//           var unSubscribeMessage = {
-//                           type:"unsubscribe",
-//                           region:$scope.currentRegion
-//           };
-//           websocketService.send(unSubscribeMessage);
-//
-//        }
+        if ($scope.currentRegion != undefined) {
+
+           var unSubscribeMessage = {
+                           type:"unsubscribe",
+                           region:$scope.currentRegion
+           };
+           websocketService.send(unSubscribeMessage);
+
+        }
 
         var message = {
                 type:"subscribe",
@@ -54,16 +63,14 @@ app.controller('demoController', function ($scope, websocketService) {
 
     }
 
-    console.log('Starting angular app...');
     $scope.changeRegion("Country");
 
 });
 
 app.factory('websocketService', [function() {
-    console.log('Starting angular app factory...');
 //    var onmessageDefer;
     var socket = {
-        ws: new WebSocket("ws://127.0.0.1:8080/demo/graphWebSocket"),
+        ws: new WebSocket("wss://127.0.0.1:8443/demo/graphWebSocket"),
         send: function(data) {
             data = JSON.stringify(data);
             if (socket.ws.readyState == 1) {

@@ -10,8 +10,10 @@ com/smartmatic/graph/LoadGraph.class
 com/smartmatic/graph/websocket/EndPoint.class
 com/smartmatic/graph/service/RegionBean.class
 com/smartmatic/graph/GraphTest$2.class
+com/smartmatic/graph/service/RestResponse$Type.class
 com/smartmatic/graph/MySubscriber.class
 com/smartmatic/graph/domain/ResultDTO.class
+com/smartmatic/graph/service/RestResponse.class
 com/smartmatic/graph/service/TransmissionBean$2.class
 com/smartmatic/graph/service/TransmissionBean.class
 com/smartmatic/graph/spec/ITransmitter.class

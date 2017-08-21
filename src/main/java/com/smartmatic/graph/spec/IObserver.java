@@ -7,7 +7,7 @@ import javax.ejb.Local;
 @Local
 public interface IObserver {
 
-        public MyObserver getObserver(String regionName);
+        MyObserver getObserver(String regionName);
         
-        public void addObserver(MyObserver observer, String regionName);
+        void addObserver(MyObserver observer, String regionName);
 }

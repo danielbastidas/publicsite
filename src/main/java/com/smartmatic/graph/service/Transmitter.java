@@ -18,6 +18,6 @@ public class Transmitter implements ITransmitter {
     @Override
     public Response transmit() {
         String tally = transmissionBean.transmission();
-        return Response.ok(tally).build();
+        return Response.ok(new RestResponse(RestResponse.Type.SUCCESS, tally)).build();
     }
 }
