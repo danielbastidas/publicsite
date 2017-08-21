@@ -43,8 +43,6 @@ app.controller('demoController', function ($scope, websocketService) {
 
     $scope.changeRegion = function(regionName) {
 
-//        $scope.previousRegion = $scope.currentRegion;
-
         if ($scope.currentRegion != undefined) {
 
            var unSubscribeMessage = {
@@ -68,29 +66,41 @@ app.controller('demoController', function ($scope, websocketService) {
 });
 
 app.factory('websocketService', [function() {
-//    var onmessageDefer;
+    var onmessageDefer;
+    var stack = [];
     var socket = {
         ws: new WebSocket("wss://127.0.0.1:8443/demo/graphWebSocket"),
         send: function(data) {
             data = JSON.stringify(data);
             if (socket.ws.readyState == 1) {
                 socket.ws.send(data);
+            } else {
+                stack.push(data);
             }
         },
         onmessage: function(callback) {
 
-            socket.ws.onmessage = callback;
-
-//            if (socket.ws.readyState == 1) {
-//                socket.ws.onmessage = callback;
-//            } else {
-//                onmessageDefer = callback;
-//            }
+            if (socket.ws.readyState == 1) {
+                socket.ws.onmessage = callback;
+            } else {
+                onmessageDefer = callback;
+            }
         }
     };
     socket.ws.onopen = function(event) {
 
+        for (i in stack) {
+            socket.ws.send(stack[i]);
+        }
+
+        stack = [];
+
+        if (onmessageDefer) {
+            socket.ws.onmessage = onmessageDefer;
+            onmessageDefer = null;
+        }
     };
+
     return socket;
 }]);
 

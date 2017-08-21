@@ -50,10 +50,15 @@ public class PostSaveEventListener<Void> implements TransactionEventHandler {
                         .getStartNode();
                 previous = node;
 
-                MyObserver tallyObserver = new MyObserver();
-                tallyObserver.setValue("C1:" + candidate1 + "|C2:" + candidate2);
-
                 IObserver observerBean = lookSessionBean();
+                MyObserver tallyObserver = observerBean.getObserver(regionName);
+
+                if (tallyObserver == null) {
+                    tallyObserver = new MyObserver();
+                    tallyObserver.setValue("C1:" + candidate1 + "|C2:" + candidate2);
+                } else {
+                    tallyObserver.setValue("C1:" + candidate1 + "|C2:" + candidate2);
+                }
 
                 observerBean.addObserver(tallyObserver, regionName);
 
