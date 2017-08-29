@@ -69,7 +69,7 @@ app.factory('websocketService', [function() {
     var onmessageDefer;
     var stack = [];
     var socket = {
-        ws: new WebSocket("wss://127.0.0.1:8443/demo/graphWebSocket"),
+        ws: new WebSocket("wss://"+window.location.hostname+":"+location.port+"/demo/graphWebSocket"),
         send: function(data) {
             data = JSON.stringify(data);
             if (socket.ws.readyState == 1) {
